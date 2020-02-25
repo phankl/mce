@@ -3,14 +3,14 @@
 bool rosenbluthBending (vector<vector<double>> &oldConfiguration) {
   vector<vector<double>> newConfiguration(segmentNumber,vector<double>(dimension-1));
   vector<double> newWeights(trialNumber,0.0);
-  double acceptance = 1.0;
 
-  for (int i = 0; i < segmentNumber; i++) {
+  newConfiguration[0] = generateBendingSegments();
+  double acceptance = electricProbability(newConfiguration[0]) / electricProbability(oldConfiguration[0]);
+  for (int i = 1; i < segmentNumber; i++) {
     // new configuration
 
     vector<vector<double>> newSegments;
-    if (i == 0) newSegments = generateBendingSegments(trialNumber);
-    else newSegments = generateBendingSegments(newConfiguration[i-1],trialNumber);
+    newSegments = generateBendingSegments(newConfiguration[i-1],trialNumber);
 
     double newWeightSum = 0.0;
     for (int j = 0; j < trialNumber; j++) {
@@ -26,8 +26,7 @@ bool rosenbluthBending (vector<vector<double>> &oldConfiguration) {
     // old configuration
 
     vector<vector<double>> oldSegments;
-    if (i == 0) oldSegments = generateBendingSegments(trialNumber-1);
-    else oldSegments = generateBendingSegments(oldConfiguration[i-1],trialNumber-1);
+    oldSegments = generateBendingSegments(oldConfiguration[i-1],trialNumber-1);
 
     double oldWeightSum = electricProbability(oldConfiguration[i]);
     for (int j = 0; j < trialNumber-1; j++) 
@@ -47,24 +46,11 @@ bool rosenbluthBending (vector<vector<double>> &oldConfiguration) {
   else return false;
 }
 
-vector<vector<double>> generateBendingSegments (int k) {
-  uniform_real_distribution<double> pi(0.0,M_PI);
-  uniform_real_distribution<double> twoPiCentred(-M_PI,M_PI);
+vector<double> generateBendingSegments () {
+  double sigma = 1.0 / sqrt(beta*order*susceptibility*field*segmentLength);
+  normal_distribution<double> gaussian(0.0,sigma);
 
-  vector<vector<double>> segments(k,vector<double>(dimension-1));
-  
-  // assume angle relative to electric field does not exceed pi
-  
-  if (dimension == 2)
-    for (int i = 0; i < k; i++)
-      segments[i][0] = twoPiCentred(rng);
-  else if (dimension == 3)
-    for (int i = 0; i < k; i++) {
-      segments[i][0] = twoPiCentred(rng);
-      segments[i][1] = pi(rng);
-    }
-
-  return segments;
+  return {gaussian(rng)};
 }
 
 vector<vector<double>> generateBendingSegments (vector<double> previousSegment, int k) {

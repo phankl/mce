@@ -1,9 +1,9 @@
 #include "constants.h"
 
 const int dimension = 2;
-const long int steps = 100000;
+const long int steps = 10000000;
 
-const int segmentNumber = 100;
+const int segmentNumber = 500;
 const double chainLength = 1.0;
 const double segmentLength = chainLength / segmentNumber;
 
@@ -18,12 +18,14 @@ const double alpha = sqrt(b * order / stiffness);
 
 const int trialNumber = 1;
 
-mt19937_64 rng(125555);
+random_device noise;
+uniform_int_distribution<int> seed(0,numeric_limits<int>::max());
+mt19937_64 rng(seed(noise));
 
 const string rosenbluthMode = "bending";
 const string energyMode = "square";
 
-const bool dumpXYZ = true;
+const bool dumpXYZ = false;
 const bool analyse = true;
 
 const string xyzFileName = "mc.xyz";

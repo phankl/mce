@@ -13,7 +13,7 @@ using namespace std;
 bool rosenbluthBending(vector<vector<double>>&);
 
 vector<vector<double>> generateBendingSegments(vector<double>, int);
-vector<vector<double>> generateBendingSegments(int);
+vector<double> generateBendingSegments();
 
 double bendingEnergy (vector<double>, vector<double>);
 double electricEnergy (vector<double>);

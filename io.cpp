@@ -40,7 +40,7 @@ void writeXYZ (vector<vector<double>> configuration, int step, ofstream &file) {
 
 void writeFile (vector<double> data, ofstream &file) {
   for (int i = 0; i < segmentNumber; i++) {
-    double s = i * segmentLength;
+    double s = (double(i) + 0.5) * segmentLength;
     file << s << " " << data[i] << endl;
   }
 }
