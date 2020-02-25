@@ -1,7 +1,7 @@
 #Generic c++ Makefile
 
 CXX = g++
-CXXFLAGS = -O2 -g -fopenmp -std=c++11
+CXXFLAGS = -O3 -g -fopenmp -std=c++11
 
 MAIN = mce
 

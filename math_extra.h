@@ -16,6 +16,8 @@ double sinc(double);
 double coth(double);
 double dawson(double);
 
+double randomSineGaussian(double);
+
 vector<double> operator + (vector<double>, vector<double>);
 vector<double> operator - (vector<double>, vector<double>);
 vector<double> operator * (double, vector<double>);

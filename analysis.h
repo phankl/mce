@@ -7,6 +7,7 @@
 
 #include "constants.h"
 #include "math_extra.h"
+#include "mc.h"
 
 using namespace std;
 

@@ -11,6 +11,7 @@ void writeXYZ (vector<vector<double>> configuration, int step, ofstream &file) {
 
   file << "1 ";
   for (int i = 0; i < dimension; i++) file << "0.0 ";
+  if (dimension == 2) file << "0.0";
   file << endl;
 
   // compute all subsequent positions and write to file
@@ -39,7 +40,7 @@ void writeXYZ (vector<vector<double>> configuration, int step, ofstream &file) {
 
 void writeFile (vector<double> data, ofstream &file) {
   for (int i = 0; i < segmentNumber; i++) {
-    double s = (double(i) + 0.5) * segmentLength;
+    double s = i * segmentLength;
     file << s << " " << data[i] << endl;
   }
 }

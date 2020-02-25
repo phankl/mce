@@ -52,6 +52,29 @@ double dawson (double x) {
   return result;
 }
 
+double randomSineGaussian (double a) {
+  uniform_real_distribution<double> uniform(0.0,1.0);
+  double ng = -0.5 * (exp(-a*M_PI*M_PI) - 1.0) / a;
+  double u1,u2;
+  double ratio,x;
+  
+  // rejection sampling of sin(x)*exp(-a*x^2)
+
+  do {
+    u1 = uniform(rng);
+    u2 = uniform(rng);
+
+    // inverse transform sampling of x*exp(-a*x^2)
+
+    x = sqrt(-log(1.0 - 2.0*a*ng*u1)/a);
+    ratio = sinc(x);
+  }
+  while (u2 > ratio);
+  if (uniform(rng) < 0.5) x *= -1;
+  
+  return x;
+}
+
 vector<double> operator + (vector<double> a, vector<double> b) {
   int size = a.size();
   vector<double> c(size);

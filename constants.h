@@ -20,11 +20,15 @@ extern const double susceptibility;
 extern const double field;
 extern const double beta;
 
+extern const double b;
+extern const double alpha;
+
 extern const int trialNumber;
 
 extern mt19937_64 rng;
 
-extern const string mode;
+extern const string rosenbluthMode;
+extern const string energyMode;
 
 extern const bool dumpXYZ;
 extern const bool analyse;

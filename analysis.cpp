@@ -68,3 +68,11 @@ double cosCorrelationTheory (double s) {
   }
 }
 
+double energy (vector<vector<double>> configuration) {
+  double result = electricEnergy(configuration[0]);
+  for (int i = 1; i < segmentNumber; i++) {
+    result += bendingEnergy(configuration[i-1],configuration[i]);
+    result += electricEnergy(configuration[i]);
+  }
+  return result;
+}
