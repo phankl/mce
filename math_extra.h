@@ -2,6 +2,7 @@
 #define math_extra_header
 
 #include <cmath>
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -17,6 +18,8 @@ double coth(double);
 double dawson(double);
 
 double randomSineGaussian(double);
+double randomGaussianCosine(double);
+void initRandomGaussianCosine(double);
 
 vector<double> operator + (vector<double>, vector<double>);
 vector<double> operator - (vector<double>, vector<double>);
@@ -28,5 +31,7 @@ vector<double> rotate (vector<double>, vector<double>, double);
 
 double length(vector<double>);
 void normalise(vector<double>&);
+
+double newton(function<double(double)>,double);
 
 #endif

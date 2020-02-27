@@ -21,6 +21,8 @@ int main (int argc, char* argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD,&nproc);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
+  initRandomGaussianCosine(segmentLength*b);
+
   ofstream xyzFile;
 
   vector<vector<double>> configuration(segmentNumber,vector<double>(dimension-1,0.0));

@@ -14,7 +14,9 @@ vector<double> meanSquaredAngle (vector<vector<double>> configuration) {
 
 vector<double> cosAverage (vector<vector<double>> configuration) {
   vector<double> c(segmentNumber);
-  for (int i = 0; i < segmentNumber; i++) c[i] = cos(configuration[i][0]);
+  for (int i = 0; i < segmentNumber; i++) 
+    if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
+    else c[i] = fabs(cos(configuration[i][0]));
   return c;
 }
 

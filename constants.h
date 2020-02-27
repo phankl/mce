@@ -24,6 +24,13 @@ extern const double beta;
 extern const double b;
 extern const double alpha;
 
+extern const int binNumber;
+extern const double newtonDelta;
+extern const double newtonEpsilon;
+
+extern vector<double> gaussianCosineValues;
+extern double gaussianCosineBound;
+
 extern const int trialNumber;
 
 extern mt19937_64 rng;

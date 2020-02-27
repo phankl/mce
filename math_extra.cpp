@@ -75,6 +75,53 @@ double randomSineGaussian (double a) {
   return x;
 }
 
+double randomGaussianCosine (double a) {
+  double end;
+  if (order % 2 == 0) end = 0.5 * M_PI;
+  else end = M_PI;
+
+  double binWidth = end / binNumber;
+
+  discrete_distribution<int> binDistribution(gaussianCosineValues.begin(),gaussianCosineValues.end());
+  uniform_real_distribution<double> insideBin(0.0,binWidth);
+  uniform_real_distribution<double> uniform(0.0,1.0);
+
+  double u;
+  double ratio,x;
+  do {
+    u = uniform(rng);
+
+    // sample from g(x)
+    int bin = binDistribution(rng);
+    x = insideBin(rng) + bin*binWidth;
+
+    ratio = exp(a*pow(cos(x),order)) / gaussianCosineValues[bin];
+  }
+  while (u > ratio);
+
+  if (order % 2 == 0 && uniform(rng) < 0.5) x = M_PI - x;
+  if (uniform(rng) < 0.5) x *= -1.0;
+
+  return x;
+}
+
+void initRandomGaussianCosine (double a) {
+  double end;
+  if (order % 2 == 0) end = 0.5 * M_PI;
+  else end = M_PI;
+
+  double binWidth = end / binNumber;
+
+  for (int i = 0; i < binNumber; i++) {
+    double x = i * binWidth;
+    gaussianCosineValues[i] = exp(a*pow(cos(x),order));
+    double xNext = x + binWidth;
+    double nextValue = exp(a*pow(cos(xNext),order));
+    double cTemp = nextValue / gaussianCosineValues[i];
+    if (cTemp > gaussianCosineBound) gaussianCosineBound = cTemp;
+  }
+}
+
 vector<double> operator + (vector<double> a, vector<double> b) {
   int size = a.size();
   vector<double> c(size);
@@ -124,5 +171,21 @@ double length(vector<double> a) {
 void normalise(vector<double> &a) {
   double len = length(a);
   int size = a.size();
-  a = (1.0/len) * a;
+  if (len != 0.0) a = (1.0/len) * a;
+}
+
+double newton(function<double(double)> func, double start) {
+  double x = start;
+  double ratio;
+  
+  do {
+    double f = func(x);
+    double df = (func(x+newtonDelta) - func(x-newtonDelta)) / (2*newtonDelta);
+    double xNew = x - f/df;
+    ratio = xNew / x;
+    x = xNew;
+  }
+  while (fabs(ratio - 1.0) > newtonEpsilon);
+
+  return x;
 }

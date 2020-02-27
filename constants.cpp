@@ -1,9 +1,9 @@
 #include "constants.h"
 
 const int dimension = 2;
-const long int steps = 10000000;
+const long int steps = 1000000;
 
-const int segmentNumber = 500;
+const int segmentNumber = 1000;
 const double chainLength = 1.0;
 const double segmentLength = chainLength / segmentNumber;
 
@@ -16,6 +16,13 @@ const double beta = 1.0;
 const double b = susceptibility * pow(field, order);
 const double alpha = sqrt(b * order / stiffness);
 
+const int binNumber = 100;
+const double newtonDelta = 1.0e-8;
+const double newtonEpsilon = 1.0e-8;
+
+vector<double> gaussianCosineValues(binNumber);
+double gaussianCosineBound = 0.0;
+
 const int trialNumber = 1;
 
 random_device noise;
@@ -25,7 +32,7 @@ mt19937_64 rng(seed(noise));
 const string rosenbluthMode = "bending";
 const string energyMode = "square";
 
-const bool dumpXYZ = false;
+const bool dumpXYZ = true;
 const bool analyse = true;
 
 const string xyzFileName = "mc.xyz";

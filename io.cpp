@@ -22,7 +22,7 @@ void writeXYZ (vector<vector<double>> configuration, int step, ofstream &file) {
       segment[0] = sin(theta);
       segment[1] = cos(theta);
     }
-    else if (dimension == 2) {
+    else if (dimension == 3) {
       double theta = configuration[i][0];
       double phi = configuration[i][1];
       segment[0] = sin(theta) * cos(phi);
