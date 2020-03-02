@@ -58,11 +58,11 @@ vector<double> generateBendingSegments () {
     double sigma = 1.0 / sqrt(beta*order*susceptibility*field*segmentLength);
     normal_distribution<double> gaussian(0.0,sigma);
     if (dimension == 2) return {gaussian(rng)};
-    else if (dimension == 3) return {gaussian(rng),piCentred(rng)};
+    else if (dimension == 3) return {randomSineGaussian(1.0/(sigma*sigma)),piCentred(rng)};
   }
   else if (energyMode == "cosine") {
-    if (dimension == 2) return {randomGaussianCosine(segmentLength*b)};
-    else if (dimension == 3) return {randomGaussianCosine(segmentLength*b),piCentred(rng)};
+    if (dimension == 2) return {randomGaussianCosine(segmentLength*beta*b)};
+    else if (dimension == 3) return {randomSineGaussianCosine(segmentLength*beta*b),piCentred(rng)};
   }
 }
 
@@ -89,14 +89,12 @@ vector<vector<double>> generateBendingSegments (vector<double> previousSegment, 
     vector<double> zAxis({0.0,0.0,1.0});
     vector<double> rotationAxis = cross(previousVector,zAxis);
     normalise(rotationAxis);
-    double rotationAngle = fmod(fabs(previousTheta),2.0*M_PI);
+    double rotationAngle = acos(previousVector[2]);
 
     int previousWindings;
-    if (previousTheta < 0) previousWindings = ceil(0.5*previousTheta/M_PI);
-    else if (previousTheta > 0) previousWindings = floor(0.5*previousTheta/M_PI);
+    if (previousTheta < 0) previousWindings = ceil(previousTheta/M_PI);
+    else if (previousTheta > 0) previousWindings = floor(previousTheta/M_PI);
     else previousWindings = 0;
-
-    //if (previousWindings != 0) cout << previousWindings << endl;
 
     for (int i = 0; i < k; i++) {
       double relativeTheta = randomSineGaussian(a);

@@ -19,6 +19,7 @@ double dawson(double);
 
 double randomSineGaussian(double);
 double randomGaussianCosine(double);
+double randomSineGaussianCosine(double);
 void initRandomGaussianCosine(double);
 
 vector<double> operator + (vector<double>, vector<double>);

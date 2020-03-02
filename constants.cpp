@@ -1,13 +1,13 @@
 #include "constants.h"
 
-const int dimension = 2;
+const int dimension = 3;
 const long int steps = 1000000;
 
-const int segmentNumber = 1000;
+const int segmentNumber = 100;
 const double chainLength = 1.0;
 const double segmentLength = chainLength / segmentNumber;
 
-const int order = 1;
+const int order = 2;
 const double stiffness = 1.0;
 const double susceptibility = 1.0;
 const double field = 1.0;
@@ -30,9 +30,9 @@ uniform_int_distribution<int> seed(0,numeric_limits<int>::max());
 mt19937_64 rng(seed(noise));
 
 const string rosenbluthMode = "bending";
-const string energyMode = "square";
+const string energyMode = "cosine";
 
-const bool dumpXYZ = true;
+const bool dumpXYZ = false;
 const bool analyse = true;
 
 const string xyzFileName = "mc.xyz";

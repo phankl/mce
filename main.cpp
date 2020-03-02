@@ -1,4 +1,5 @@
 #include <vector>
+#include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -21,8 +22,46 @@ int main (int argc, char* argv[]) {
   MPI_Comm_size(MPI_COMM_WORLD,&nproc);
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-  initRandomGaussianCosine(segmentLength*b);
+  initRandomGaussianCosine(beta*segmentLength*b);
+  
+  /*
+  int localBinNumber = 1000;
+  int samples = 100000000;
+  double a = segmentLength*b;
+  double binWidth = 2.0*M_PI / localBinNumber;
+  vector<int> bins(localBinNumber);
+  for (int i = 0; i < samples; i++) {
+    double x = randomSineGaussianCosine(a);
+    int bin = floor((x+M_PI)/binWidth);
+    bins[bin]++;
+  }
 
+  ofstream random("random.dat");
+  for (int i = 0; i < localBinNumber; i++)
+    random << (double(i) + 0.5)*binWidth - M_PI << " " << double(bins[i])/samples/binWidth << endl;
+  random.close();
+  */
+  /*
+  long int testNumber = 1000000;
+  double testTheta = -0.1*M_PI;
+  double testPhi = -1.3*M_PI;
+  vector<double> testSegment({testTheta,testPhi});
+  vector<vector<double>> generatedSegments = generateBendingSegments(testSegment,testNumber);
+  vector<double> mean(3,0.0);
+  for (long int i = 0; i < testNumber; i++) {
+    double theta = generatedSegments[i][0];
+    double phi = generatedSegments[i][1];
+    vector<double> position({
+      sin(theta)*cos(phi),
+      sin(theta)*sin(phi),
+      cos(theta)
+    });
+    mean = mean + position;
+  }
+  mean = (1.0/testNumber) * mean;
+  cout << "Previous segment: " << sin(testTheta)*cos(testPhi) << " " << sin(testTheta)*sin(testPhi) << " " << cos(testTheta) << endl;
+  cout << "Mean: " << mean[0] << " " << mean[1] << " " << mean[2] << endl;
+  */
   ofstream xyzFile;
 
   vector<vector<double>> configuration(segmentNumber,vector<double>(dimension-1,0.0));
@@ -50,7 +89,12 @@ int main (int argc, char* argv[]) {
       msa = msa + meanSquaredAngle(configuration);
       energyAverage += energy(configuration);
     }
+    if (rank == 0) {
+      cout << fixed << setprecision(2);
+      cout << "Progress: " << double(i)/end*100.0 << "%\r" << flush;
+    }
   }
+  if (rank == 0) cout << "Progress: " << 100.0  << "%" << endl;
 
   // combine results
 

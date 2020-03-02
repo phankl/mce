@@ -105,6 +105,24 @@ double randomGaussianCosine (double a) {
   return x;
 }
 
+double randomSineGaussianCosine (double a) {
+  uniform_real_distribution<double> uniform(0.0,1.0);
+  double u;
+  double ratio,x;
+  
+  // rejection sampling of sin(x)*exp(a*cos(x)^n)
+
+  do {
+    u = uniform(rng);
+    x = randomGaussianCosine(a);
+    ratio = sin(x);
+  }
+  while (u > ratio);
+  if (uniform(rng) < 0.5) x *= -1;
+  
+  return x;
+}
+
 void initRandomGaussianCosine (double a) {
   double end;
   if (order % 2 == 0) end = 0.5 * M_PI;
