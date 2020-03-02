@@ -2,45 +2,68 @@
 
 vector<double> meanSquaredAngle (vector<vector<double>> configuration) {
   vector<double> msa(segmentNumber);
-  if (field == 0.0) 
-    for (int i = 0; i < segmentNumber; i++) 
-      msa[i] = pow(configuration[i][0] - configuration[0][0],2);
-  else
+  if (energyMode == "square") {
+    for (int i = 0; i < segmentNumber; i++) {
+      msa[i] = 0.0;
+      for (int j = 0; j < dimension-1; j++)
+        msa[i] += pow(configuration[i][j],2);
+    }
+  }
+  else if (energyMode == "cosine") {
+    if (dimension == 2) {
     for (int i = 0; i < segmentNumber; i++) 
       msa[i] = pow(configuration[i][0],2);
+    }
+  }
 
   return msa;
 }
 
 vector<double> cosAverage (vector<vector<double>> configuration) {
   vector<double> c(segmentNumber);
-  double cosPrevious = cos(configuration[0][1]);
-  for (int i = 0; i < segmentNumber; i++) { 
-    if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
-    else c[i] = fabs(cos(configuration[i][0]));
-
-    //if (fabs(c[i]-cosPrevious) > 0.5) cout << "Winding detected" << endl;
-    cosPrevious = c[i];
+  if (energyMode == "square") {
+    for (int i = 0; i < segmentNumber; i++) {
+      double thetaSquared = 0.0;
+      for (int j = 0; j < dimension-1; j++) 
+        thetaSquared += pow(configuration[i][j],2);
+      c[i] = cos(sqrt(thetaSquared));
+    }
+  }
+  else if (energyMode == "cosine") {
+    for (int i = 0; i < segmentNumber; i++) { 
+      if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
+      else c[i] = fabs(cos(configuration[i][0]));
+    }
   }
   return c;
 }
 
 vector<double> cosCorrelation (vector<vector<double>> configuration) {
   vector<double> correlation(segmentNumber);
-  if (dimension == 2)
-    for (int i = 0; i < segmentNumber; i++)
-      correlation[i] = cos(configuration[i][0] - configuration[0][0]);
-  else if (dimension == 3) {
-    double theta1 = configuration[0][0];
-    double phi1 = configuration[0][1];
-    double c1 = cos(theta1);
-    double s1 = sin(theta1);
+  if (energyMode == "square") {
     for (int i = 0; i < segmentNumber; i++) {
-      double theta2 = configuration[i][0];
-      double phi2 = configuration[i][1];
-      double c2 = cos(theta2);
-      double s2 = sin(theta2);
-      correlation[i] = c1*c2 + cos(phi1-phi2)*s1*s2;
+      double thetaSquared = 0.0;
+      for (int j = 0; j < dimension-1; j++) 
+        thetaSquared += pow(configuration[i][j]-configuration[i][0],2);
+      correlation[i] = cos(sqrt(thetaSquared));
+    } 
+  }
+  else if (energyMode == "cosine") {
+    if (dimension == 2)
+      for (int i = 0; i < segmentNumber; i++)
+        correlation[i] = cos(configuration[i][0] - configuration[0][0]);
+    else if (dimension == 3) {
+      double theta1 = configuration[0][0];
+      double phi1 = configuration[0][1];
+      double c1 = cos(theta1);
+      double s1 = sin(theta1);
+      for (int i = 0; i < segmentNumber; i++) {
+        double theta2 = configuration[i][0];
+        double phi2 = configuration[i][1];
+        double c2 = cos(theta2);
+        double s2 = sin(theta2);
+        correlation[i] = c1*c2 + cos(phi1-phi2)*s1*s2;
+      }
     }
   }
 
