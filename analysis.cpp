@@ -44,7 +44,7 @@ vector<double> cosCorrelation (vector<vector<double>> configuration) {
     for (int i = 0; i < segmentNumber; i++) {
       double thetaSquared = 0.0;
       for (int j = 0; j < dimension-1; j++) 
-        thetaSquared += pow(configuration[i][j]-configuration[i][0],2);
+        thetaSquared += pow(configuration[i][j]-configuration[0][j],2);
       correlation[i] = cos(sqrt(thetaSquared));
     } 
   }

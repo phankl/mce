@@ -1,7 +1,7 @@
 #include "constants.h"
 
 const int dimension = 3;
-const long int steps = 10000000;
+const long int steps = 100000000;
 
 const int segmentNumber = 500;
 const double chainLength = 1.0;
