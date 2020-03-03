@@ -31,7 +31,7 @@ double sinc (double x) {
 double coth (double x) {
   double c = cosh(x);
   double s = sinh(x);
-  if (isinf(c) && isinf(s)) return 1.0;
+  if (std::isinf(c) && std::isinf(s)) return 1.0;
   return c / s;
 }
 
