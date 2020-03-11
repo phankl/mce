@@ -84,6 +84,9 @@ int main (int argc, char* argv[]) {
     if (rosenbluthMode == "bending" && rosenbluthBending(configuration)) acceptedSteps++;
     if (dumpXYZ && rank == 0) writeXYZ(configuration,i+1,xyzFile);
     if (analyse) {
+      for (int j = 0; j < segmentNumber; j++) {
+        //cout << configuration[j][0] << endl;
+      }
       cosAvg = cosAvg + cosAverage(configuration);
       correlation = correlation + cosCorrelation(configuration);
       msa = msa + meanSquaredAngle(configuration);

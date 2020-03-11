@@ -31,7 +31,7 @@ vector<double> cosAverage (vector<vector<double>> configuration) {
   }
   else if (energyMode == "cosine") {
     for (int i = 0; i < segmentNumber; i++) { 
-      if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
+      if (field == 0.0 || order == 1 || true) c[i] = cos(configuration[i][0]);
       else c[i] = fabs(cos(configuration[i][0]));
     }
   }

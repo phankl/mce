@@ -83,7 +83,7 @@ vector<vector<double>> generateBendingSegments (vector<double> previousSegment, 
   }
   else if (energyMode == "cosine") {
     if (dimension == 2) 
-      for (int i = 0; i < k; i++) segments[i][0] += gaussian(rng);
+      for (int i = 0; i < k; i++) segments[i][0] = previousSegment[0] + gaussian(rng);
     else if (dimension == 3) {
       double previousTheta = previousSegment[0];
       double previousPhi = previousSegment[1];

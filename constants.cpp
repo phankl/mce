@@ -1,7 +1,7 @@
 #include "constants.h"
 
 const int dimension = 3;
-const long int steps = 100000000;
+const long int steps = 1000000;
 
 const int segmentNumber = 500;
 const double chainLength = 1.0;
@@ -10,7 +10,7 @@ const double segmentLength = chainLength / segmentNumber;
 const int order = 1;
 const double stiffness = 1.0;
 const double susceptibility = 1.0;
-const double field = 1.0;
+const double field = 10.0;
 const double beta = 1.0;
 
 const double b = susceptibility * pow(field, order);
@@ -30,7 +30,7 @@ uniform_int_distribution<int> seed(0,numeric_limits<int>::max());
 mt19937_64 rng(seed(noise));
 
 const string rosenbluthMode = "bending";
-const string energyMode = "square";
+const string energyMode = "cosine";
 
 const bool dumpXYZ = false;
 const bool analyse = true;
