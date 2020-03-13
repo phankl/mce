@@ -10,7 +10,7 @@ const double segmentLength = chainLength / segmentNumber;
 const int order = 1;
 const double stiffness = 1.0;
 const double susceptibility = 1.0;
-const double field = 10.0;
+const double field = 100.0;
 const double beta = 1.0;
 
 const double b = susceptibility * pow(field, order);

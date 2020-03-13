@@ -114,7 +114,7 @@ vector<vector<double>> generateBendingSegments (vector<double> previousSegment, 
        
         double newTheta = acos(newVector[2]);
         if (newVector[0] < 0) newTheta *= -1.0;
-        newTheta += 2.0*previousWindings*M_PI;
+        //newTheta += previousWindings*M_PI;
         double newPhi = atan(newVector[1]/newVector[0]);
         
         segments[i][0] = newTheta;

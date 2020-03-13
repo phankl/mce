@@ -31,7 +31,7 @@ vector<double> cosAverage (vector<vector<double>> configuration) {
   }
   else if (energyMode == "cosine") {
     for (int i = 0; i < segmentNumber; i++) { 
-      if (field == 0.0 || order == 1 || true) c[i] = cos(configuration[i][0]);
+      if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
       else c[i] = fabs(cos(configuration[i][0]));
     }
   }
@@ -91,10 +91,9 @@ double cosCorrelationTheory (double s) {
     return exp(-0.5*s*(dimension-1)/(stiffness*beta));
   }
   else {
-    if (dimension == 2) {
-      double b = susceptibility * pow(field,order);
-      return exp(-tanh(0.5*s*sqrt(b*order/stiffness)) / (beta*sqrt(stiffness*b*order)));
-    }
+    double arg = exp(2.0*chainLength*alpha) + 3.0*exp(2.0*s*alpha) - exp(3.0*s*alpha) -  3.0*exp((2.0*chainLength + s)*alpha);
+    arg *= (coth(chainLength*alpha) - 1.0) * (exp(s*alpha) - 1.0) * exp(-2.0*s*alpha) / (8.0*beta*sqrt(stiffness*b*order));
+    return hypergeometric1f1(0.5*(dimension-1),0.5,arg);
   }
 }
 
