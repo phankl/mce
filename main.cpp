@@ -23,16 +23,18 @@ int main (int argc, char* argv[]) {
   MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
   initRandomGaussianCosine(beta*segmentLength*b);
-  
+
   /*
   int localBinNumber = 1000;
   int samples = 100000000;
-  double a = segmentLength*b;
+  double a = beta*segmentLength*b;
   double binWidth = 2.0*M_PI / localBinNumber;
+  double cosine = 0.0;
   vector<int> bins(localBinNumber);
   for (int i = 0; i < samples; i++) {
     double x = randomSineGaussianCosine(a);
     int bin = floor((x+M_PI)/binWidth);
+    cosine += cos(x);
     bins[bin]++;
   }
 
@@ -40,6 +42,7 @@ int main (int argc, char* argv[]) {
   for (int i = 0; i < localBinNumber; i++)
     random << (double(i) + 0.5)*binWidth - M_PI << " " << double(bins[i])/samples/binWidth << endl;
   random.close();
+  cout << cosine / samples << endl;
   */
   /*
   long int testNumber = 1000000;

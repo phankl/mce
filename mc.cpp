@@ -49,7 +49,9 @@ bool rosenbluthBending (vector<vector<double>> &oldConfiguration) {
 vector<double> generateBendingSegments () {
   uniform_real_distribution<double> piCentred(-0.5*M_PI,0.5*M_PI);
   uniform_real_distribution<double> twoPiCentred(-M_PI,M_PI);
-  
+  uniform_real_distribution<double> uniform(0.0,1.0);
+  uniform_real_distribution<double> twoPi(0.0,2.0*M_PI);
+
   if (field == 0.0) {
     vector<double> segment(dimension-1,0.0);
     return segment;
@@ -62,8 +64,10 @@ vector<double> generateBendingSegments () {
     return segment;
   }
   else if (energyMode == "cosine") {
-    if (dimension == 2) return {randomGaussianCosine(segmentLength*beta*b)};
-    else if (dimension == 3) return {randomSineGaussianCosine(segmentLength*beta*b),piCentred(rng)};
+    //if (dimension == 2) return {randomGaussianCosine(segmentLength*beta*b)};
+    if (dimension == 2) return {twoPiCentred(rng)};
+    //else if (dimension == 3) return {randomSineGaussianCosine(segmentLength*beta*b),piCentred(rng)};
+    else if (dimension == 3) return {acos(2.0*uniform(rng)-1),twoPi(rng)};
   }
 }
 
