@@ -23,6 +23,17 @@ double hypergeometric1f1 (double a, double b, double z) {
   return result;
 }
 
+double hypergeometric0f1 (double a, double z) {
+  double result = 0.0;
+  double zPower = 1.0;
+  for (int i = 0; i < 50; i++) {
+    result += 1.0 / (risingFactorial(a,i) * risingFactorial(1,i)) * zPower;
+    zPower *= z;
+  }
+
+  return result;
+}
+
 double sinc (double x) {
   if (x == 0.0) return 1.0;
   else return sin(x) / x;

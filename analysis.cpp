@@ -26,7 +26,7 @@ vector<double> cosAverage (vector<vector<double>> configuration) {
       double thetaSquared = 0.0;
       for (int j = 0; j < dimension-1; j++) 
         thetaSquared += pow(configuration[i][j],2);
-      c[i] = cos(sqrt(thetaSquared));
+      c[i] = hypergeometric0f1(0.5*(dimension-1),-0.25*(dimension-1)*thetaSquared);
     }
   }
   else if (energyMode == "cosine") {
@@ -45,7 +45,7 @@ vector<double> cosCorrelation (vector<vector<double>> configuration) {
       double thetaSquared = 0.0;
       for (int j = 0; j < dimension-1; j++) 
         thetaSquared += pow(configuration[i][j]-configuration[0][j],2);
-      correlation[i] = cos(sqrt(thetaSquared));
+      correlation[i] = hypergeometric0f1(0.5*(dimension-1),-0.25*(dimension-1)*thetaSquared);
     } 
   }
   else if (energyMode == "cosine") {
@@ -83,7 +83,7 @@ double cosAverageTheory (double s) {
   double b = susceptibility * pow(field,order);
   double alpha = sqrt(b * order / stiffness);
   double z = -cosh((chainLength-s)*alpha) * cosh(s*alpha) / (2.0*sinh(chainLength*alpha)*beta*stiffness*alpha);
-  return hypergeometric1f1(0.5*(dimension-1),0.5,z);
+  return exp((dimension-1)*z);
 }
 
 double cosCorrelationTheory (double s) {
@@ -92,8 +92,8 @@ double cosCorrelationTheory (double s) {
   }
   else {
     double arg = exp(2.0*chainLength*alpha) + 3.0*exp(2.0*s*alpha) - exp(3.0*s*alpha) -  3.0*exp((2.0*chainLength + s)*alpha);
-    arg *= (coth(chainLength*alpha) - 1.0) * (exp(s*alpha) - 1.0) * exp(-2.0*s*alpha) / (8.0*beta*sqrt(stiffness*b*order));
-    return hypergeometric1f1(0.5*(dimension-1),0.5,arg);
+    arg *= exp(-2.0*s*alpha) * (exp(s*alpha) - 1.0)/ (4.0*beta*sqrt(stiffness*b*order)*(exp(2.0*chainLength*alpha) - 1.0));
+    return exp((dimension-1.0)*arg);
   }
 }
 

@@ -13,6 +13,7 @@ using namespace std;
 int doubleFactorial(int);
 double risingFactorial(double, int);
 double hypergeometric1f1(double, double, double);
+double hypergeometric0f1(double, double);
 double sinc(double);
 double coth(double);
 double dawson(double);
