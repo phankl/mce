@@ -15,7 +15,7 @@ double risingFactorial (double x, int n) {
 double hypergeometric1f1 (double a, double b, double z) {
   double result = 0.0;
   double zPower = 1.0;
-  for (int i = 0; i < 50; i++) {
+  for (int i = 0; i < 100; i++) {
     result += risingFactorial(a,i) / (risingFactorial(b,i) * risingFactorial(1,i)) * zPower;
     zPower *= z;
   }
@@ -26,7 +26,7 @@ double hypergeometric1f1 (double a, double b, double z) {
 double hypergeometric0f1 (double a, double z) {
   double result = 0.0;
   double zPower = 1.0;
-  for (int i = 0; i < 50; i++) {
+  for (int i = 0; i < 10; i++) {
     result += 1.0 / (risingFactorial(a,i) * risingFactorial(1,i)) * zPower;
     zPower *= z;
   }

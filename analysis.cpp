@@ -30,10 +30,8 @@ vector<double> cosAverage (vector<vector<double>> configuration) {
     }
   }
   else if (energyMode == "cosine") {
-    for (int i = 0; i < segmentNumber; i++) { 
-      if (field == 0.0 || order == 1) c[i] = cos(configuration[i][0]);
-      else c[i] = fabs(cos(configuration[i][0]));
-    }
+    for (int i = 0; i < segmentNumber; i++) 
+      c[i] = fabs(cos(configuration[i][0]));
   }
   return c;
 }
@@ -71,7 +69,6 @@ vector<double> cosCorrelation (vector<vector<double>> configuration) {
 }
 
 double meanSquaredAngleTheory (double s) {
-  double b = susceptibility * pow(field,order);
   double alpha = sqrt(b*order/stiffness);
 
   if (field == 0.0) return (dimension-1)*s / (stiffness*beta);
@@ -80,10 +77,17 @@ double meanSquaredAngleTheory (double s) {
 
 double cosAverageTheory (double s) {
   if (field == 0.0) return 0.0;
-  double b = susceptibility * pow(field,order);
   double alpha = sqrt(b * order / stiffness);
   double z = -cosh((chainLength-s)*alpha) * cosh(s*alpha) / (2.0*sinh(chainLength*alpha)*beta*stiffness*alpha);
   return exp((dimension-1)*z);
+}
+
+double cosSquaredAverageTheory (double s) {
+  if (field == 0.0) return 0.0;
+  double alpha = sqrt(b * order / stiffness);
+  double z = -2.0 * cosh((chainLength-s)*alpha) * cosh(s*alpha) / (sinh(chainLength*alpha)*beta*stiffness*alpha);
+  if (dimension == 2) return 0.5 * (1.0 + exp(z));
+  else return hypergeometric1f1(0.5*(dimension-2.0),dimension-2.0,(dimension-1)*z);
 }
 
 double cosCorrelationTheory (double s) {

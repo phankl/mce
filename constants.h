@@ -37,14 +37,17 @@ extern mt19937_64 rng;
 
 extern const string rosenbluthMode;
 extern const string energyMode;
+extern const string endCriterion;
 
 extern const bool dumpXYZ;
 extern const bool analyse;
 
 extern const string xyzFileName;
 extern const string cosFileName;
+extern const string cosSquaredFileName;
 extern const string msaFileName;
 extern const string cosTheoryFileName;
+extern const string cosSquaredTheoryFileName;
 extern const string msaTheoryFileName;
 extern const string correlationFileName;
 extern const string correlationTheoryFileName;

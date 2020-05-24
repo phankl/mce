@@ -16,6 +16,7 @@ vector<double> cosCorrelation(vector<vector<double>>);
 vector<double> meanSquaredAngle(vector<vector<double>>);
 
 double cosAverageTheory(double);
+double cosSquaredAverageTheory(double);
 double cosCorrelationTheory(double);
 double meanSquaredAngleTheory(double);
 

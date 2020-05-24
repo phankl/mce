@@ -64,9 +64,7 @@ vector<double> generateBendingSegments () {
     return segment;
   }
   else if (energyMode == "cosine") {
-    //if (dimension == 2) return {randomGaussianCosine(segmentLength*beta*b)};
     if (dimension == 2) return {twoPiCentred(rng)};
-    //else if (dimension == 3) return {randomSineGaussianCosine(segmentLength*beta*b),piCentred(rng)};
     else if (dimension == 3) return {acos(2.0*uniform(rng)-1),twoPi(rng)};
   }
 }
@@ -166,7 +164,7 @@ double electricEnergy (vector<double> segment) {
     return -b * segmentLength * (1.0 - 0.5*order*thetaSquared);
   }
   else if (energyMode == "cosine") 
-    return -susceptibility * segmentLength * pow(cos(segment[0])*field,order);
+    return -susceptibility * segmentLength * fabs(pow(cos(segment[0])*field,order));
 }
 
 double bendingProbability (vector<double> segment1, vector<double> segment2) {
