@@ -14,6 +14,7 @@ using namespace std;
 vector<double> cosAverage(vector<vector<double>>);
 vector<double> cosCorrelation(vector<vector<double>>);
 vector<double> meanSquaredAngle(vector<vector<double>>);
+double extension(vector<vector<double>>);
 
 double cosAverageTheory(double);
 double cosSquaredAverageTheory(double);

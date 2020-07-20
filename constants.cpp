@@ -1,7 +1,7 @@
 #include "constants.h"
 
 const int dimension = 3;
-const long int steps = 10000;
+const long int steps = 1000000;
 
 const int segmentNumber = 500;
 const double chainLength = 1.0;
@@ -30,8 +30,8 @@ uniform_int_distribution<int> seed(0,numeric_limits<int>::max());
 mt19937_64 rng(seed(noise));
 
 const string rosenbluthMode = "bending";
-const string energyMode = "cosine";
-const string endCriterion = "configurations";
+const string energyMode = "square";
+const string endCriterion = "steps";
 
 const bool dumpXYZ = true;
 const bool analyse = true;

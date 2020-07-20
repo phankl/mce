@@ -35,12 +35,14 @@ int main (int argc, char* argv[]) {
   long int acceptedSteps = 0;
   long int totalSteps = 0;
   double energyAverage = 0.0;
+  double extensionAverage = 0.0;
   vector<double> cosAvg(segmentNumber);
   vector<double> cosSquaredAvg(segmentNumber);
   vector<double> correlation(segmentNumber);
   vector<double> msa(segmentNumber);
   
   double energyTemp = energy(configuration);
+  double extensionTemp = extension(configuration);
   vector<double> cosAvgTemp = cosAverage(configuration);
   vector<double> correlationTemp = cosCorrelation(configuration);
   vector<double> msaTemp = meanSquaredAngle(configuration);
@@ -66,6 +68,7 @@ int main (int argc, char* argv[]) {
           correlationTemp = cosCorrelation(configuration);
           msaTemp = meanSquaredAngle(configuration);
           energyTemp = energy(configuration);
+          extensionTemp = extension(configuration);
           for (int j = 0; j < segmentNumber; j++)
             cosSquaredAvgTemp[j] = cosAvgTemp[j] * cosAvgTemp[j];
         }
@@ -74,6 +77,7 @@ int main (int argc, char* argv[]) {
         correlation = correlation + correlationTemp;
         msa = msa + msaTemp;
         energyAverage += energyTemp;
+        extensionAverage += extensionTemp;
       }
       if (rank == 0) {
         cout << fixed << setprecision(2);
@@ -94,6 +98,7 @@ int main (int argc, char* argv[]) {
           correlationTemp = cosCorrelation(configuration);
           msaTemp = meanSquaredAngle(configuration);
           energyTemp = energy(configuration);
+          extensionTemp = extension(configuration);
           for (int j = 0; j < segmentNumber; j++)
             cosSquaredAvgTemp[j] = cosAvgTemp[j] * cosAvgTemp[j];
         }
@@ -102,6 +107,7 @@ int main (int argc, char* argv[]) {
         correlation = correlation + correlationTemp;
         msa = msa + msaTemp;
         energyAverage += energyTemp;
+        extensionAverage += extensionTemp;
       }
       if (rank == 0) {
         cout << fixed << setprecision(2);
@@ -116,6 +122,7 @@ int main (int argc, char* argv[]) {
   long int masterAcceptedSteps;
   long int masterTotalSteps;
   double masterEnergyAverage;
+  double masterExtensionAverage;
   vector<double> masterCosAvg(segmentNumber);
   vector<double> masterCosSquaredAvg(segmentNumber);
   vector<double> masterCorrelation(segmentNumber);
@@ -123,6 +130,7 @@ int main (int argc, char* argv[]) {
   MPI_Reduce(&acceptedSteps,&masterAcceptedSteps,1,MPI_UNSIGNED_LONG,MPI_SUM,0,MPI_COMM_WORLD);
   MPI_Reduce(&totalSteps,&masterTotalSteps,1,MPI_UNSIGNED_LONG,MPI_SUM,0,MPI_COMM_WORLD);
   MPI_Reduce(&energyAverage,&masterEnergyAverage,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
+  MPI_Reduce(&extensionAverage,&masterExtensionAverage,1,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   MPI_Reduce(cosAvg.data(),masterCosAvg.data(),segmentNumber,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   MPI_Reduce(cosSquaredAvg.data(),masterCosSquaredAvg.data(),segmentNumber,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
   MPI_Reduce(correlation.data(),masterCorrelation.data(),segmentNumber,MPI_DOUBLE,MPI_SUM,0,MPI_COMM_WORLD);
@@ -132,6 +140,7 @@ int main (int argc, char* argv[]) {
   
   if (analyse && rank == 0) {
     masterEnergyAverage /= masterTotalSteps;
+    masterExtensionAverage /= masterTotalSteps;
     masterCosAvg = (1.0/masterTotalSteps) * masterCosAvg;
     masterCosSquaredAvg = (1.0/masterTotalSteps) * masterCosSquaredAvg;
     masterCorrelation = (1.0/masterTotalSteps) * masterCorrelation;
@@ -148,6 +157,7 @@ int main (int argc, char* argv[]) {
     cout << "Accepted steps: " << masterAcceptedSteps << "/" << masterTotalSteps 
          << " = " << double(masterAcceptedSteps)/double(masterTotalSteps) << endl;
     cout << "Energy average: " << masterEnergyAverage << endl;
+    cout << "Extension average: " << masterExtensionAverage << endl;
     cout << "Order parameter: " << orderParameter << endl;
     
     ofstream cosFile(cosFileName);

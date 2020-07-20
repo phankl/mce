@@ -68,6 +68,14 @@ vector<double> cosCorrelation (vector<vector<double>> configuration) {
   return correlation;
 }
 
+double extension (vector<vector<double>> configuration) {
+  double z = 0.0;
+  for (int i = 0; i < segmentNumber; i++)
+    z += cos(configuration[i][0]);
+
+  return fabs(z) / segmentNumber;
+}
+
 double meanSquaredAngleTheory (double s) {
   double alpha = sqrt(b*order/stiffness);
 

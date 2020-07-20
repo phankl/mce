@@ -54,6 +54,7 @@ vector<double> generateBendingSegments () {
 
   if (field == 0.0) {
     vector<double> segment(dimension-1,0.0);
+    segment[0] = twoPi(rng);
     return segment;
   }
   else if (energyMode == "square") {
